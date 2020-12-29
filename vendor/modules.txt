@@ -1,0 +1,21 @@
+# github.com/fogleman/density v0.0.0-20191228162957-250ab4d12cea
+## explicit
+github.com/fogleman/density
+# github.com/gocql/gocql v0.0.0-20201215165327-e49edf966d90
+## explicit
+github.com/gocql/gocql
+github.com/gocql/gocql/internal/lru
+github.com/gocql/gocql/internal/murmur
+github.com/gocql/gocql/internal/streams
+# github.com/golang/snappy v0.0.0-20170215233205-553a64147049
+github.com/golang/snappy
+# github.com/gorilla/mux v1.8.0
+## explicit
+github.com/gorilla/mux
+# github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed
+github.com/hailocab/go-hostpool
+# github.com/lucasb-eyer/go-colorful v1.0.3
+## explicit
+github.com/lucasb-eyer/go-colorful
+# gopkg.in/inf.v0 v0.9.1
+gopkg.in/inf.v0

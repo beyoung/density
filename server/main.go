@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"image/png"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"time"
 
 	"github.com/fogleman/density"
 	"github.com/gorilla/mux"
@@ -27,7 +29,7 @@ func init() {
 	flag.StringVar(&CacheDirectory, "cache", "cache", "cache directory")
 	flag.StringVar(&Keyspace, "keyspace", "density", "keyspace name")
 	flag.StringVar(&Table, "table", "points", "table name")
-	flag.IntVar(&BaseZoom, "zoom", 18, "tile zoom")
+	flag.IntVar(&BaseZoom, "zoom", 13, "tile zoom")
 }
 
 func cachePath(zoom, x, y int) string {
@@ -85,7 +87,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	flag.Parse()
 	router := mux.NewRouter()
-	router.HandleFunc("/{zoom:\\d+}/{x:\\d+}/{y:\\d+}.png", Handler)
-	addr := fmt.Sprintf(":%d", Port)
-	log.Fatal(http.ListenAndServe(addr, router))
+	router.HandleFunc("/api/health/", func(w http.ResponseWriter, r *http.Request) {
+		// an example API handler
+		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+	})
+	router.HandleFunc("/{zoom:[0-9]+}/{x:[0-9]+}/{y:[0-9]+}.png", Handler)
+	srv := &http.Server{
+		Handler: router,
+		Addr:    "0.0.0.0:5000",
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Fatal(srv.ListenAndServe())
 }

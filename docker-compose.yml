@@ -1,0 +1,9 @@
+version: '3.6'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - 9042:9042
+    volumes:
+      - ./data_dir:/var/lib/cassandra

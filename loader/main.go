@@ -81,15 +81,17 @@ func main() {
 	session, _ := cluster.CreateSession()
 	defer session.Close()
 
-	points := make(chan Point, 1024)
+	points := make(chan Point, 50000)
 	for i := 0; i < Workers; i++ {
 		go worker(session, points)
 	}
 
 	reader := csv.NewReader(os.Stdin)
+	reader.FieldsPerRecord = -1
 	for {
 		record, err := reader.Read()
 		if err != nil {
+			log.Println(err)
 			break
 		}
 		lat, _ := strconv.ParseFloat(record[LatIndex], 64)
